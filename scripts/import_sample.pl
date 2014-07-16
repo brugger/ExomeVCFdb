@@ -31,17 +31,12 @@ my $dbname = 'ExomeVCFdb';
 my $dbi = CTRU::VCFdb::connect($dbname, $dbhost, "easih_admin", "easih");
 
 
-my $sample_sequence_name = $infile;
-$sample_sequence_name =~ s/.*\///;
-my $sample_name = substr($sample_sequence_name, 0, 7);
-
-
+my $sample_name = $infile;
+$sample_name =~ s/.*\///;
+$sample_name =~ s/.bam//;
+$sample_name =~ s/\_mem//;
 
 my $sid = CTRU::VCFdb::add_sample( $sample_name );
-my $ssid = CTRU::VCFdb::add_sample_sequence( $sid, $pid, $sample_sequence_name );
-
-readin_vcf("$infile.vcf");
-readin_csv("$infile.var.csv");
 readin_stats("$infile.bam.flagstat", "$infile.bam.isize");
 
 
